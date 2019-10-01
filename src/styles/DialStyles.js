@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
 const DialStyles = styled.div`
-    margin: 12px;
+    padding: 0 16px;
+    font-size: 18px;
+
+    p {
+        margin-bottom: 6px;
+    }
     button {
         border: none;
-        font-size: 16px;
+        font-size: 24px;
+        color: inherit;
         background-color: inherit;
     }
 `;

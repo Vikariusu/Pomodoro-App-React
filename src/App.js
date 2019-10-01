@@ -1,19 +1,25 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import styled from 'styled-components';
+import { Square, Triangle } from './styles/ButtonStyles';
+
 import Clock from './Clock';
 import Dial from './Dial';
 import { useInterval } from './hooks/useInterval';
-import SvgImage from './SvgImage';
+
 
 // TODO: move to separate files
 const Wrapper = styled.div`
-  margin: 0 auto;
+  margin: 0 30vw;
   text-align: center;
-  color: hsl(209, 8%, 17%);
+  font-size: 1em;
 
+  h1 {
+    margin-bottom: 18px;
+  }
   h3 {
-    color: #272727;
+    margin: 0 0 48px 0;
+    font-size: 1.4em;
   }
 
   .about {
@@ -23,44 +29,11 @@ const Wrapper = styled.div`
     text-align: left;
     width: 24%;
     line-height: 1.6;
-  }
-`;
 
-const Triangle = styled.div`
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 17.5px 0 17.5px 30.3px;
-  border-color: transparent transparent transparent #60AE58;
-  margin: 5px;
-
-  &:hover {
-    border-color: transparent transparent transparent #4F8F49;
-    position: relative;
-    top: -1px;
-  }
-`;
-
-const TriangleAbout = styled.div`
-position: absolute;
-bottom: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-border-width: 520px 0 0 680px;
-  border-color: transparent transparent transparent #AB9B96;
-`;
-
-const Square = styled.div`
-  height: 30px;
-  width: 30px;
-  background-color: #AB9B96;
-  margin: 5px;
-
-  &:hover {
-    background-color: #8C7F7B;
-    position: relative;
-    top: -1px;
+    @media (max-width: 1000px) {
+      width: 40%;
+      font-size: 0.9em;
+    }
   }
 `;
 
@@ -68,16 +41,16 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  margin: 16px 0;
 `;
 
 function App() {
   const [isRunning, setRunning] = useState(false);
   const [isBreak, setBreak] = useState(false);
   const [cycles, setCycles] = useState(0);
-  const [workMinutes, setWorkMinutes] = useState(1);
+  const [workMinutes, setWorkMinutes] = useState(25);
   const [breakMinutes, setBreakMinutes] = useState(5);
-  const [timeRemaining, setTimeRemaining] = useState(15);
+  const [timeRemaining, setTimeRemaining] = useState(1500);
   const intervalRef = useRef(null);
 
   function startClock() {
@@ -110,6 +83,7 @@ function App() {
     setTimeRemaining(workMinutes * 60);
   }
 
+  // adds or subtracts workMinutes
   const modifyWorkMinutes = (difference) => {
     const newWorkMinutes = workMinutes + difference;
     if (newWorkMinutes > 0) {
@@ -121,6 +95,7 @@ function App() {
     }
   }
 
+  // adds or subtracts breakMinutes
   const modifyBreakMinutes = (difference) => {
     const newBreakMinutes = breakMinutes + difference;
     if (newBreakMinutes > 0) {
@@ -132,30 +107,25 @@ function App() {
     <Wrapper>
       <h1>Pomodoro</h1>
       <h3>{isBreak ? 'Break time' : 'Time to get to work'}</h3>
-      <p>Cycles completed: {cycles}</p>
       <Buttons>
         <Dial
           modifyMinutes={modifyWorkMinutes}
           minutes={workMinutes}
-          title='Work'
+          title='work'
         />
         <Dial
           modifyMinutes={modifyBreakMinutes}
           minutes={breakMinutes}
-          title='Break'
+          title='break'
         />
       </Buttons>
       <Clock timeRemaining={timeRemaining} />
-
+      <p>Cycles completed: {cycles}</p>
       <Buttons>
-        <Triangle onClick={startClock} />
+        <Triangle onClick={startClock} className={isRunning ? 'active' : ''} />
         <Square onClick={resetClock} />
       </Buttons>
-      {/* <SvgImage /> */}
-
-      <TriangleAbout />
-      <p className="about">The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. The technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. Each interval is known as a pomodoro, from the Italian word for 'tomato', after the tomato-shaped kitchen timer that Cirillo used as a university student.</p>
-    </Wrapper>
+    </Wrapper >
   );
 }
 
