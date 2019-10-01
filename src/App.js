@@ -80,6 +80,7 @@ function App() {
 
   const resetClock = () => {
     setRunning(false);
+    setCycles(0);
     setTimeRemaining(workMinutes * 60);
   }
 
@@ -104,7 +105,7 @@ function App() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="app-container">
       <h1>Pomodoro</h1>
       <h3>{isBreak ? 'Break time' : 'Time to get to work'}</h3>
       <Buttons>
@@ -122,8 +123,8 @@ function App() {
       <Clock timeRemaining={timeRemaining} />
       <p>Cycles completed: {cycles}</p>
       <Buttons>
-        <Triangle onClick={startClock} className={isRunning ? 'active' : ''} />
-        <Square onClick={resetClock} />
+        <Triangle onClick={startClock} className={isRunning ? 'active' : ''} data-testid="start-button" />
+        <Square onClick={resetClock} data-testid="reset-button" />
       </Buttons>
     </Wrapper >
   );
