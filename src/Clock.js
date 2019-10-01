@@ -7,8 +7,8 @@ const Clock = ({ timeRemaining }) => {
     let modifiedSeconds = seconds <= 9 ? `0${seconds}` : seconds;
 
     return (
-        <ClockStyles className={timeRemaining === 0 ? 'animated' : ''}>
-            <div>{minutes}:{modifiedSeconds}</div>
+        <ClockStyles className={timeRemaining === 0 ? 'animated' : ''} data-testid="clock-container">
+            <div data-testid="clock-time-remaining"><span>{minutes}</span>:<span>{modifiedSeconds}</span></div>
         </ClockStyles>
     );
 }
